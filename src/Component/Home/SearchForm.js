@@ -14,7 +14,7 @@ class SearchForm extends Component {
     };
     const onSubmit = e => {
       e.preventDefault();
-      this.props.getGifs(this.state.searchItem);
+      this.props.getGifs(this.state.searchItem, this.props.offSet);
       console.log(this.state.searchItem);
     };
     return (
@@ -44,5 +44,8 @@ class SearchForm extends Component {
 SearchForm.propTypes = {
   getGifs: PropTypes.func.isRequired
 };
+const mapStateToProps = state => ({
+  offSet: state.search.offSet
+});
 
-export default connect(null, { getGifs })(SearchForm);
+export default connect(mapStateToProps, { getGifs })(SearchForm);

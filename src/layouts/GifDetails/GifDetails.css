@@ -1,30 +1,30 @@
-.gif-details{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: column;
-    box-sizing: border-box;
-    height: inherit;
-    margin: 1%;
-    border: 1px solid black;
+.gif-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  box-sizing: border-box;
+  height: inherit;
+  margin: 1%;
+  border: 1px solid black;
 }
-.gif-details h3{
-    text-transform: capitalize;
-    font-size: 1.5rem;
+.gif-details h3 {
+  text-transform: capitalize;
+  font-size: 1.5rem;
 }
-.detail{
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-flow: column;
-    margin: 3% 0;
+.detail {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-flow: column;
+  margin: 3% 0;
 }
-.detail p{
-    padding: 1rem;
-    margin: 0;
-    font-size: 1rem;
+.detail p {
+  padding: 1rem;
+  margin: 0;
+  font-size: 1rem;
 }
-.detail p span{
-    font-weight: bold;
-    text-transform: capitalize;
+.detail p span {
+  font-weight: bold;
+  text-transform: capitalize;
 }

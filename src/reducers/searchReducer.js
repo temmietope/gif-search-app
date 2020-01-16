@@ -1,9 +1,10 @@
-import { GET_GIFS, ERROR, SET_LOADING } from "../actions/types";
+import { GET_GIFS, LOAD_MORE, SET_LOADING } from "../actions/types";
 
 const initialState = {
   gifs: [],
   loading: false,
-  searchKeyWord: ""
+  searchKeyWord: "",
+  offSet: 0
 };
 
 export default function(state = initialState, action) {
@@ -19,6 +20,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case LOAD_MORE:
+      return {
+        ...state,
+        offSet: (state.offSet += state.gifs.length)
       };
     //   case ERROR:
     //   return {
