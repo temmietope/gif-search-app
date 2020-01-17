@@ -6,6 +6,8 @@ import "./Home.css"
 const Home = () => {
   return (
     <div className="home">
+        <h4>GIF SEARCH</h4>
+
       <SearchForm />
       <Gifs />
     </div>

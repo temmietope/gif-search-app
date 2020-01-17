@@ -6,7 +6,7 @@
   box-sizing: border-box;
   height: inherit;
   margin: 1%;
-  border: 1px solid black;
+  color: rgb(82, 77, 77);
 }
 .gif-details h3 {
   text-transform: capitalize;
@@ -20,7 +20,7 @@
   margin: 3% 0;
 }
 .detail p {
-  padding: 1rem;
+  padding: 0.5em;
   margin: 0;
   font-size: 1rem;
 }

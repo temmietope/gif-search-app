@@ -5,49 +5,49 @@ import { withRouter } from "react-router-dom";
 import { loadMore, getGifs } from "../../actions/searchActions";
 import InfiniteScroll from "react-infinite-scroller";
 
+const LIMIT = 25;
 class GifsBase extends Component {
-  componentDidMount() {
-    console.log("from here");
-    console.log(this.props.searchResults);
-    console.log(this.props.loading);
-  }
-  componentDidUpdate() {
-    console.log(this.props.searchResults);
-    console.log(this.props.loading);
-  }
   render() {
-    const { searchResults, searchKeyWord, loading } = this.props;
-
+    const { searchResults, search, hasMore } = this.props;
+    const renderLoading = () => {
+      return <h5>Loading more...</h5>;
+    };
     const renderGifs = () => {
       return (
         <div className="search-results-div">
           <h3>
-            Search Results for <span>{searchKeyWord}</span>
+            Search Results for{" "}
+            <span>
+              {search} - {searchResults.length}
+            </span>
           </h3>
           <InfiniteScroll
             pageStart={0}
-            loadMore={this.props.getGifs(searchKeyWord, this.props.offSet)}
-            hasMore={true || false}
-            loader={
-              <div className="loader" key={0}>
-                Loading ...
-              </div>
-            }
+            loadMore={this.props.getGifs.bind(this, {
+              search,
+              offset: LIMIT + searchResults.length,
+              reset: false
+            })}
+            hasMore={hasMore}
+            loader={renderLoading()}
           >
             <div className="search-results">
               {searchResults.map(item => {
                 return (
-                  <img
-                    key={item.id}
-                    src={item.images.original.url}
-                    alt={item.images.title}
-                    onClick={() => {
-                      this.props.history.push({
-                        pathname: `/gifs/${item.id}`,
-                        state: item
-                      });
-                    }}
-                  />
+                  <>
+                    <img
+                      key={item.id}
+                      src={item.images.fixed_height_small.url}
+                      alt={item.images.title}
+                      onClick={() => {
+                        this.props.history.push({
+                          pathname: `/gifs/${item.id}`,
+                          state: item
+                        });
+                      }}
+                      loading="lazy"
+                    />
+                  </>
                 );
               })}
             </div>
@@ -55,15 +55,10 @@ class GifsBase extends Component {
         </div>
       );
     };
-    const renderLoading = () => {
-      return <div>Loading...</div>;
-    };
-    return (
-      <div className="show-gifs">
-        <h4>GIF SEARCH</h4>
-        {loading ? renderLoading() : searchKeyWord && renderGifs()}
-      </div>
-    );
+
+   
+
+    return <div className="show-gifs">{search && renderGifs()}</div>;
   }
 }
 
@@ -75,8 +70,9 @@ GifsBase.propTypes = {
 const mapStateToProps = state => ({
   searchResults: state.search.gifs,
   loading: state.search.loading,
-  searchKeyWord: state.search.searchKeyWord,
-  offSet: state.search.offSet
+  search: state.search.search,
+  offset: state.search.offset,
+  hasMore: state.search.hasMore
 });
 
 const Gifs = withRouter(GifsBase);

@@ -5,21 +5,29 @@ import { getGifs } from "../../actions/searchActions";
 
 class SearchForm extends Component {
   state = {
-    searchItem: ""
+    search: "",
+    loading: false
   };
+
+  renderLoading() {
+    return <h3>Loading...</h3>;
+  }
+
   render() {
+    const { loading, search } = this.state;
     const onChange = e => {
-      console.log(e.target.value);
-      this.setState({ searchItem: e.target.value });
+      this.setState({ search: e.target.value });
     };
-    const onSubmit = e => {
+
+    const onSubmit = async e => {
       e.preventDefault();
-      this.props.getGifs(this.state.searchItem, this.props.offSet);
-      console.log(this.state.searchItem);
+      this.setState({ loading: true });
+      await this.props.getGifs({ search, reset: true, offset: 0 });
+      this.setState({ loading: false });
     };
+
     return (
       <div className="search-form">
-        <h4>Search Gif</h4>
         <form
           onSubmit={e => {
             onSubmit(e);
@@ -36,6 +44,7 @@ class SearchForm extends Component {
           />
           <button type="submit">Search</button>
         </form>
+        {loading && this.renderLoading()}
       </div>
     );
   }
@@ -45,7 +54,7 @@ SearchForm.propTypes = {
   getGifs: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
-  offSet: state.search.offSet
+  offset: state.search.offset
 });
 
 export default connect(mapStateToProps, { getGifs })(SearchForm);

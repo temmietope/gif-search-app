@@ -1,30 +1,31 @@
-import { GET_GIFS, LOAD_MORE, SET_LOADING } from "../actions/types";
+import { GET_GIFS, SET_LOADING } from "../actions/types";
 
 const initialState = {
   gifs: [],
   loading: false,
-  searchKeyWord: "",
-  offSet: 0
+  search: "",
+  offset: 0,
+  reset: false,
+  hasMore: true
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_GIFS:
+      // if it is a new search term clear the prev gifs state
+      const gifs = action.payload.reset ? [] : state.gifs;
       return {
         ...state,
-        gifs: action.payload.res,
-        searchKeyWord: action.payload.search,
-        loading: false
+        gifs: [...gifs, ...action.payload.res],
+        search: action.payload.search,
+        loading: false,
+        offset: action.payload.offset,
+        hasMore: action.payload.res.length !== 0
       };
     case SET_LOADING:
       return {
         ...state,
         loading: true
-      };
-    case LOAD_MORE:
-      return {
-        ...state,
-        offSet: (state.offSet += state.gifs.length)
       };
     //   case ERROR:
     //   return {
